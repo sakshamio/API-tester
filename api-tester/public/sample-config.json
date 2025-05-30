@@ -1,0 +1,71 @@
+{
+  "name": "Sample API Test Configuration",
+  "description": "Example configuration for testing a REST API with various scenarios",
+  "version": "1.0",
+  "requestConfig": {
+    "url": "https://jsonplaceholder.typicode.com/posts",
+    "method": "POST",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer your-token-here",
+      "X-API-Version": "v1"
+    },
+    "body": "{\n  \"title\": \"Test Post\",\n  \"body\": \"This is a test post created by the API tester\",\n  \"userId\": 1\n}",
+    "params": {
+      "include": "comments",
+      "format": "json"
+    }
+  },
+  "loadTestConfig": {
+    "requests": 100,
+    "concurrency": 10,
+    "duration": 30,
+    "pattern": "ramp-up",
+    "rampDuration": 15,
+    "burstSize": 25,
+    "burstInterval": 5,
+    "stepSize": 5,
+    "stepDuration": 10,
+    "customSequence": [5, 10, 15, 20, 15, 10, 5],
+    "requestDelay": 100,
+    "timeout": 30,
+    "warmupRequests": 5,
+    "chaosEnabled": true,
+    "networkFailureRate": 2,
+    "timeoutFailureRate": 1,
+    "slowResponseRate": 5,
+    "slowResponseDelay": 3000,
+    "randomErrorRate": 1,
+    "networkJitter": 200,
+    "packetLossRate": 0.5,
+    "bandwidthLimit": 500
+  },
+  "scenarios": [
+    {
+      "name": "Happy Path",
+      "description": "Normal operation with minimal chaos",
+      "chaosEnabled": false,
+      "pattern": "constant"
+    },
+    {
+      "name": "High Load",
+      "description": "Stress test with burst traffic",
+      "requests": 500,
+      "pattern": "burst",
+      "burstSize": 50
+    },
+    {
+      "name": "Network Issues",
+      "description": "Test with network problems",
+      "chaosEnabled": true,
+      "networkFailureRate": 10,
+      "slowResponseRate": 20
+    }
+  ],
+  "metadata": {
+    "createdAt": "2024-01-15T10:30:00Z",
+    "createdBy": "API Test Team",
+    "tags": ["rest-api", "load-test", "chaos-engineering"],
+    "environment": "staging"
+  }
+}
